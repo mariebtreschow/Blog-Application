@@ -28,13 +28,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/views', (req, res) => {
-   res.redirect('/posts');
+   res.render('index');
 });
 
-app.get('/posts', (req, res) => {
-   console.log('Requesting posts');
-   res.render('posts/index');
-});
+app.get('/admin', (req, res) => {
+   res.render();
+})
 
 app.listen(3000, (req, res) => {
    console.log('App listening on 3000!');
