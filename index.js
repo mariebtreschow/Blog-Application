@@ -36,7 +36,7 @@ app.get('/admin/posts/new', (req, res) => {
    res.render('posts/new');
 });
 
-app.get('/:slug', (req, ren) => {
+app.get('/:slug', (req, res) => {
    db.Post.findOne({
        where: {
           slug: req.params.slug
@@ -52,7 +52,7 @@ app.post('/posts', (req, res) => {
    db.Post.create(req.body).then((post) => {
       res.redirect('/' + post.slug)
    }).catch((error) => {
-      res.status(404);
+      res.status(404).end();
    });
 });
 
