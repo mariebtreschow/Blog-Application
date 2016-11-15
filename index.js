@@ -7,7 +7,10 @@ const express = require('express'),
 
 var app = express(),
     sequelize = new Sequelize('marietreschow', 'marietreschow', 'asta', { dialect: 'postgres' }),
-    db = require('./models')
+    db = require('./models');
+
+var adminRouter = require('./routes/admin');
+
 
 app.use(express.static('public'));
 app.use(morgan('dev'));
@@ -24,21 +27,12 @@ app.use(methodOverride((req, res) => {
 
 app.set('view engine', 'pug');
 
+
 app.get('/', (req, res) => {
-   db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('index', { posts: post });
-   });
+   res.redirect('/admin');
 });
 
-app.get('/admin/posts', (req, res) => {
-   db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('posts/index', { posts: post });
-   });
-});
-
-app.get('/admin/posts/new', (req, res) => {
-   res.render('posts/new');
-});
+app.use('/admin', adminRouter);
 
 app.get('/:slug', (req, res) => {
    db.Post.findOne({
@@ -49,14 +43,6 @@ app.get('/:slug', (req, res) => {
       res.render('posts/show', { post: post })
    }).catch((error) => {
       throw error;
-   });
-});
-
-app.post('/posts', (req, res) => {
-   db.Post.create(req.body).then((post) => {
-      res.redirect('/' + post.slug)
-   }).catch((error) => {
-      res.status(404).end();
    });
 });
 
