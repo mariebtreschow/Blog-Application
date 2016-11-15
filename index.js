@@ -6,7 +6,8 @@ const express = require('express'),
       Sequelize = require('sequelize');
 
 var app = express(),
-    sequelize = new Sequelize('marietreschow', 'marietreschow', 'asta', { dialect: 'postgres' });
+    sequelize = new Sequelize('marietreschow', 'marietreschow', 'asta', { dialect: 'postgres' }),
+    db = require('./models')
 
 app.use(express.static('public'));
 app.use(morgan('dev'));
@@ -35,6 +36,28 @@ app.get('/admin/posts/new', (req, res) => {
    res.render('posts/new');
 });
 
-app.listen(3000, (req, res) => {
-   console.log('App listening on 3000!');
+app.get('/:slug', (req, ren) => {
+   db.Post.findOne({
+       where: {
+          slug: req.params.slug
+      }
+   }).then((post) => {
+      res.render('posts/show', { post: post })
+   }).catch((error) => {
+      throw error;
+   });
+});
+
+app.post('/posts', (req, res) => {
+   db.Post.create(req.body).then((post) => {
+      res.redirect('/' + post.slug)
+   }).catch((error) => {
+      res.status(404);
+   });
+});
+
+db.sequelize.sync().then(() => {
+   app.listen(3000, (req, res) => {
+      console.log('App listening on 3000!');
+   });
 });
