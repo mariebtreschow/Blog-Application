@@ -24,10 +24,6 @@ app.use(methodOverride((req, res) => {
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-   res.redirect('/views');
-});
-
-app.get('/views', (req, res) => {
    res.render('index');
 });
 
