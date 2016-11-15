@@ -31,7 +31,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/admin/posts', (req, res) => {
-   res.render('posts/index');
+   db.Post.findAll({ order: 'id DESC' }).then((post) => {
+      res.render('posts/index', { posts: post });
+   });
 });
 
 app.get('/admin/posts/new', (req, res) => {

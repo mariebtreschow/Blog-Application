@@ -2,38 +2,18 @@ extends ../application.pug
 
 block content
 	.container
-		.row
-			.col-xs-12
-				br
-				.card.card-block
-					h4(href="") Blog Title
-					p But I must explain to you how all this mistaken idea of denouncing pleasure and praising. But I must explain to you how all this mistaken idea of denouncing pleasure and praising.
-					.col-xs-2.offset-xs-8
-						form(action=" " method="POST")
-							a(href="" class="btn btn-warning btn-block") Edit Blog Post
-					.col-xs-2
-						form(action=" " method="POST")
-							input(type="hidden" name="_method" value="DELETE")
-							button(type="submit" class="btn btn-danger ny-post-delete-button") Delete Blog Post
-			.col-xs-12
-				.card.card-block
-					h4(href="") Blog Title
-					p But I must explain to you how all this mistaken idea of denouncing pleasure and praising. But I must explain to you how all this mistaken idea of denouncing pleasure and praising.
-					.col-xs-2.offset-xs-8
-						form(action=" " method="POST")
-							a(href="" class="btn btn-warning btn-block") Edit Blog Post
-					.col-xs-2
-						form(action=" " method="POST")
-							input(type="hidden" name="_method" value="DELETE")
-							button(type="submit" class="btn btn-danger ny-post-delete-button") Delete Blog Post
-			.col-xs-12
-				.card.card-block
-					h4(href="") Blog Title
-					p But I must explain to you how all this mistaken idea of denouncing pleasure and praising. But I must explain to you how all this mistaken idea of denouncing pleasure and praising.
-					.col-xs-2.offset-xs-8
-						form(action=" " method="POST")
-							a(href="" class="btn btn-warning btn-block") Edit Blog Post
-					.col-xs-2
-						form(action=" " method="POST")
-							input(type="hidden" name="_method" value="DELETE")
-							button(type="submit" class="btn btn-danger ny-post-delete-button") Delete Blog Post
+		each post in posts
+			.row
+				.col-xs-12
+					.card.card-block
+						a(href='/' + post.slug)
+							h4=post.title
+						h6=post.slug
+						p=post.content
+							.col-xs-2.offset-xs-8
+								form(action=" " method="POST")
+									a(href="" class="btn btn-warning btn-block") Edit Blog Post
+							.col-xs-2
+								form(action=" " method="POST")
+									input(type="hidden" name="_method" value="DELETE")
+									button(type="submit" class="btn btn-danger ny-post-delete-button") Delete Blog Post
