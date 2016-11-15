@@ -3,11 +3,6 @@ var express = require('express'),
     router = express.Router();
 
 
- router.get('/', (req, res) => {
-   db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('index', { posts: post });
-   });
-});
 
  router.get('/posts', (req, res) => {
    db.Post.findAll({ order: 'id DESC' }).then((post) => {

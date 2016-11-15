@@ -29,7 +29,9 @@ app.set('view engine', 'pug');
 
 
 app.get('/', (req, res) => {
-   res.redirect('/admin');
+  db.Post.findAll({ order: 'id DESC' }).then((post) => {
+     res.render('index', { posts: post });
+  });
 });
 
 app.use('/admin', adminRouter);
