@@ -31,9 +31,13 @@ app.get('/views', (req, res) => {
    res.render('index');
 });
 
-app.get('/admin/blog-posts', (req, res) => {
+app.get('/admin/posts', (req, res) => {
    res.render('posts/index');
-})
+});
+
+app.get('/admin/posts/new', (req, res) => {
+   res.render('posts/new');
+});
 
 app.listen(3000, (req, res) => {
    console.log('App listening on 3000!');
