@@ -11,10 +11,10 @@ block content
 						h6=post.slug
 						p=post.content
 							.col-xs-2.offset-xs-8
-								form(action="/admin/" + post.id method="POST")
-                           input(type="hidden" name="_method" value="PUT")
+								form(action="/posts/" + post.id method="POST")
+									input(type="hidden" name="_method" value="PUT")
 									button(type="submit" class="btn btn-warning btn-block") Edit Blog Post
 							.col-xs-2
-								form(action="/admin/" + post.id method="POST")
+								form(action="/posts/" + post.id method="POST")
 									input(type="hidden" name="_method" value="DELETE")
 									button(type="submit" class="btn btn-danger ny-post-delete-button") Delete Blog Post
