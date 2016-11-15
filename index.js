@@ -31,8 +31,8 @@ app.get('/views', (req, res) => {
    res.render('index');
 });
 
-app.get('/admin', (req, res) => {
-   res.render();
+app.get('/admin/blog-posts', (req, res) => {
+   res.render('posts/index');
 })
 
 app.listen(3000, (req, res) => {
