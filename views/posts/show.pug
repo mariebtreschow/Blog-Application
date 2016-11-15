@@ -2,9 +2,8 @@ extends ../application.pug
 
 block content
 	.container
-		each post in posts
-			.row
-				.col-xs-10
-					.card.card-block
-						h2= post.title
-						p= post.content
+		.row
+			.col-xs-10
+				.card.card-block
+					h2= post.title
+					p= post.content

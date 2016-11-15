@@ -42,7 +42,7 @@ app.get('/:slug', (req, res) => {
           slug: req.params.slug
       }
    }).then((post) => {
-      res.render('posts/show', { post: post })
+      res.render('posts/show', { post : post })
    }).catch((error) => {
       throw error;
    });

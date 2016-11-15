@@ -6,13 +6,13 @@ var express = require('express'),
 
 router.get('/posts/edit', (req, res) => {
    db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('posts/index', { posts: post });
+      res.render('posts/edit', { posts: post });
    });
 });
 
 router.get('/posts', (req, res) => {
    db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('posts/show', { posts: post });
+      res.render('posts/index', { posts: post });
    });
 });
 
@@ -27,7 +27,6 @@ router.post('/posts/edit', (req, res) => {
 router.get('/posts/new', (req, res) => {
    res.render('posts/new');
 });
-
 
 router.put('/posts/:id', (req, res) => {
    Post.update(req.body, {
