@@ -7,15 +7,16 @@ block content
 				br
 				h1 Edit a Blog Post:
 				hr
-				form(action="/admin/posts" method="POST")
+				form(action="/admin/posts/" + post.id method="POST")
+					input(type="hidden" name="_method" value="PUT")
 					div(class="form-group")
 						lable(for="title") Post Title:
-						input(name="title" type="text" class="form-control" id="post-title")
+						input(name="title" type="text" class="form-control" id="post-title" value=post.title)
 					div(class="form-group")
 						lable(for="slug") Post Slug:
-						input(name="slug" type="text" class="form-control" id="post-slug")
+						input(name="slug" type="text" class="form-control" id="post-slug" value=post.slug)
 					div(class="form-group")
 						lable(for="content") Content:
-						textarea(name="content" class="form-control" rows=20 id="post-content")
+						textarea(name="content" class="form-control" rows=20 id="post-content" value=post.content)
 					div(class="form-group text-xs-center")
 						button(type="submit" class="btn btn-ls btn-success") Edit your Blog Post
