@@ -4,21 +4,21 @@ var express = require('express'),
     router = express.Router();
 
 
-router.get('/posts/edit', (req, res) => {
-   db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('posts/edit', { posts: post });
-   });
-});
-
 router.get('/posts', (req, res) => {
    db.Post.findAll({ order: 'id DESC' }).then((post) => {
       res.render('posts/index', { posts: post });
    });
 });
 
-router.post('/posts/edit', (req, res) => {
+router.get('/posts/edit', (req, res) => {
+   db.Post.findAll({ order: 'id DESC' }).then((post) => {
+      res.render('posts/edit', { post: post });
+   });
+});
+
+router.post('/posts/new', (req, res) => {
    db.Post.create(req.body).then((post) => {
-      res.redirect('/' + post.slug)
+      res.redirect('/' + post.slug);
    }).catch((error) => {
       res.status(404).end();
    });
@@ -27,6 +27,8 @@ router.post('/posts/edit', (req, res) => {
 router.get('/posts/new', (req, res) => {
    res.render('posts/new');
 });
+
+
 
 router.put('/posts/:id', (req, res) => {
    Post.update(req.body, {
