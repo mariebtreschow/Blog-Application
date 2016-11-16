@@ -16,7 +16,7 @@ router.get('/posts/edit', (req, res) => {
    });
 });
 
-router.post('/posts/new', (req, res) => {
+router.post('/posts', (req, res) => {
    db.Post.create(req.body).then((post) => {
       res.redirect('/' + post.slug);
    }).catch((error) => {
