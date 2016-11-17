@@ -29,8 +29,7 @@ router.get('/posts/new', (req, res) => {
 });
 
 
-
-router.put('/posts/:id', (req, res) => {
+router.put('/posts/edit', (req, res) => {
    Post.update(req.body, {
    where: {
       id: req.params.id

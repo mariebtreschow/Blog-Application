@@ -6,13 +6,12 @@ block content
 			.row
 				.col-xs-12
 					.card.card-block
-						a(href='/posts')
+						a(href='/'+ post.slug)
 							h4=post.title
 						h6=post.slug
 						p=post.content
 							.col-xs-2.offset-xs-8
-								form(action="admin/posts/edit" method="POST")
-									input(type="hidden" name="_method" value="PUT")
+								a(href='/admin/posts/edit')
 									button(type="submit" class="btn btn-warning btn-block") Edit Blog Post
 							.col-xs-2
 								form(action="/posts/" + post.id method="POST")

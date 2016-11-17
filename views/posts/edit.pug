@@ -7,7 +7,7 @@ block content
 				br
 				h1 Edit a Blog Post:
 				hr
-				form(action="/admin/posts/edit" + post.id method="POST")
+				form(action="/admin/posts/edit" method="POST")
 					input(type="hidden" name="_method" value="PUT")
 					div(class="form-group")
 						lable(for="title") Post Title:
