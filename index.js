@@ -2,6 +2,7 @@ const express = require('express'),
       pug = require('pug'),
       bodyParser = require('body-parser'),
       methodOverride = require('method-override'),
+      displayRoutes = require('express-routemap'),
       morgan = require('morgan');
 
 var app = express(),
@@ -9,17 +10,15 @@ var app = express(),
 
 var adminRouter = require('./routes/admin');
 
-console.log(db.Comment);
-
 app.use(express.static('public'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false}));
 
-
 app.use(methodOverride((req, res) => {
    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       var method = req.body._method;
-         delete req.body._method;
+
+      delete req.body._method;
       return method;
    }})
 );
@@ -32,8 +31,9 @@ app.use('/admin', adminRouter);
 app.post('/comments', (req, res) => {
    console.log(req.body);
    db.Comment.create(req.body).then((comment) => {
-      console.log('comment is created!!!');
-      res.redirect('/');
+      return comment.getPost().then((post) => {
+         res.redirect('/');
+      });
    });
 });
 
@@ -80,14 +80,22 @@ app.get('/:slug', (req, res) => {
           slug: req.params.slug
       }
    }).then((post) => {
-      res.render('posts/show', { post : post })
-   }).catch((error) => {
-      throw error;
+      console.log(post.getComments);
+      console.log(post);
+      post.getComments().then((comments) => {
+         res.render('posts/show', {
+            post: post,
+            comments: comments
+         });
+      });
    });
 });
 
+
+// cannot getComments of post, post is equal to null__
 db.sequelize.sync().then(() => {
    app.listen(3000, (req, res) => {
       console.log('App listening on 3000!');
+      displayRoutes(app);
    });
 });
