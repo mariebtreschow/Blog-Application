@@ -1,0 +1,17 @@
+extends ./application.pug
+
+block content
+	.container
+		.row
+			.col-xs-6.offset-xs-2
+				h1 Login:
+				hr
+				form(action="/login" method="POST")
+					div(class="form-group")
+						lable(for="email") Email:
+						input(name="email" type="text" class="form-control")
+					div(class="form-group")
+						lable(for="password") Password:
+						input(name="password" type="text" class="form-control" )
+					div(class="form-group text-xs-center")
+						button(type="submit" class="btn btn-block btn-success") Login

@@ -7,3 +7,11 @@ block content
 				.card.card-block
 					h2= post.title
 					p= post.content
+
+				form(action="/comments" method="POST")
+					div(class="form-group")
+						lable(for="comment")
+							h6 Write a Comment:
+						textarea(name="content" class="form-control" rows=4 id="PostId")
+					div(class="form-group text-xs-center")
+						button(type="submit" class="btn btn-success btn-block") Add comment

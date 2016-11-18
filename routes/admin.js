@@ -29,25 +29,25 @@ router.get('/posts/new', (req, res) => {
 });
 
 
-router.put('/posts/edit', (req, res) => {
-   Post.update(req.body, {
-   where: {
-      id: req.params.id
+router.put('/posts/:id/edit', (req, res) => {
+   db.Post.update(req.body, {
+      where: {
+         id: req.params.id
       }
    }).then(() => {
-      res.redirect('posts/edit');
+      res.redirect('/admin/posts/edit');
    }).catch((error) => {
       throw error;
    });
 });
 
 router.delete('/posts/:id', (req, res) => {
-   Post.destroy(req.body, {
-   where: {
-      id: req.params.id
+   db.Post.destroy({
+      where: {
+         id: req.params.id
       }
    }).then(() => {
-      res.redirect('posts/edit');
+      res.redirect('/admin/posts');
    }).catch((error) => {
       throw error;
    });

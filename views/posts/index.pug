@@ -1,7 +1,9 @@
 extends ../application.pug
 
 block content
+
 	.container
+		h1 All Posts:
 		each post in posts
 			.row
 				.col-xs-12
@@ -14,6 +16,6 @@ block content
 								a(href='/admin/posts/edit')
 									button(type="submit" class="btn btn-warning btn-block") Edit Blog Post
 							.col-xs-2
-								form(action="/posts/" + post.id method="POST")
+								form(action="/admin/posts/" + post.id method="POST")
 									input(type="hidden" name="_method" value="DELETE")
 									button(type="submit" class="btn btn-danger ny-post-delete-button") Delete Blog Post

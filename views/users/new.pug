@@ -1,0 +1,24 @@
+extends ../application.pug
+
+block content
+	.container
+		.row
+			.col-xs-6.offset-xs-2
+				br
+				h1 Create a New User:
+				hr
+				form(action="/users" method="POST")
+					div(class="form-group")
+						lable(for="name") Name:
+						input(name="name" type="text" class="form-control")
+					div(class="form-group")
+						lable(for="lastname") Surname:
+						input(name="surname" type="text" class="form-control" )
+					div(class="form-group")
+						lable(for="email") Email:
+						input(name="email" type="text" class="form-control")
+					div(class="form-group")
+						lable(for="password") Password:
+						input(name="password" type="text" class="form-control" )
+					div(class="form-group text-xs-center")
+						button(type="submit" class="btn btn-ls btn-success") Create a New User

@@ -8,3 +8,9 @@ a {
    color: black;
    hover: black;
 }
+
+a:-webkit-any-link !important {
+    color: -webkit-link;
+    text-decoration: none;
+    cursor: auto;
+}

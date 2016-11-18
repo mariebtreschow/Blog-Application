@@ -2,11 +2,13 @@ extends ./application.pug
 
 block content
 	.container
+		h2 Read our Blog Posts:
 		each post in posts
 			.row
 				.col-xs-8
 					.card.card-block
-						h4=post.title
+						a(href='/'+ post.slug)
+							h4=post.title
 						p=post.content
 				.col-xs-4
 					.card.card-block
