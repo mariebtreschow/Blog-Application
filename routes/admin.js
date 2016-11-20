@@ -29,15 +29,24 @@ router.get('/posts/new', (req, res) => {
 });
 
 
-router.put('/posts/:id/edit', (req, res) => {
+router.get('/posts/:id/edit', (req, res) => {
+   console.log(req.body);
+   db.Post.findOne(req.body, {
+      where: {
+         id: req.params.id
+      }
+   }).then((post) => {
+      res.render('posts/edit', { post : post });
+   });
+});
+
+router.put('/posts/:id', (req, res) => {
    db.Post.update(req.body, {
       where: {
          id: req.params.id
       }
    }).then(() => {
-      res.redirect('/admin/posts/edit');
-   }).catch((error) => {
-      throw error;
+      res.redirect('/admin/posts');
    });
 });
 
@@ -48,8 +57,6 @@ router.delete('/posts/:id', (req, res) => {
       }
    }).then(() => {
       res.redirect('/admin/posts');
-   }).catch((error) => {
-      throw error;
    });
 });
 

@@ -7,8 +7,9 @@ block content
 				.card.card-block
 					h2= post.title
 					p= post.content
+
+				h4 Comments:
 				each comment in comments
-					h4 Comments:
 					.card.card-block
 						p= comment.content
 
@@ -19,4 +20,4 @@ block content
 							h6 Write a Comment:
 						textarea(name="content" class="form-control" rows=4 id="PostId")
 					div(class="form-group text-xs-center")
-						button(type="submit" class="btn btn-success btn-block") Add comment
+						button(type="submit" class="btn btn-success float-xs-right") Add comment

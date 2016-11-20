@@ -13,7 +13,7 @@ block content
 						h6=post.slug
 						p=post.content
 							.col-xs-2.offset-xs-8
-								a(href='/admin/posts/edit')
+								a(href='/admin/posts/:id/edit')
 									button(type="submit" class="btn btn-warning btn-block") Edit Blog Post
 							.col-xs-2
 								form(action="/admin/posts/" + post.id method="POST")
