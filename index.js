@@ -28,11 +28,13 @@ app.set('view engine', 'pug');
 app.use('/admin', adminRouter);
 
 
-app.post('/comments', (req, res) => {
-   console.log(req.body);
-   db.Comment.create(req.body).then((comment) => {
+app.post('/comments/:id', (req, res) => {
+var incomingComent = req.body;
+incomingComent.PostId = req.params.id;
+
+   db.Comment.create(incomingComent).then((comment) => {
       return comment.getPost().then((post) => {
-         res.redirect('/');
+         res.redirect('/' + post.slug);
       });
    });
 });
