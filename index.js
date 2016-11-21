@@ -62,14 +62,14 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-   db.findOne({
+   db.User.findOne({
       where: {
          email: req.body.email
       }
    }).then((userInDB) => {
       if (userInDB.passowrd === req.body.password) {
       } else {
-         res.redirect('/login');
+         res.redirect('/admin/posts');
       }
    }).catch(() => {
       res.redirect('/register');
@@ -82,8 +82,6 @@ app.get('/:slug', (req, res) => {
           slug: req.params.slug
       }
    }).then((post) => {
-      console.log(post.getComments);
-      console.log(post);
       post.getComments().then((comments) => {
          res.render('posts/show', {
             post: post,
@@ -95,7 +93,7 @@ app.get('/:slug', (req, res) => {
 
 
 // cannot getComments of post, post is equal to null__
-db.sequelize.sync().then(() => {
+db.sequelize.sync({force:false}).then(() => {
    app.listen(3000, (req, res) => {
       console.log('App listening on 3000!');
       displayRoutes(app);
