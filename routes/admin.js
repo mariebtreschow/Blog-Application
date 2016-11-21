@@ -5,59 +5,86 @@ var express = require('express'),
 
 
 router.get('/posts', (req, res) => {
-   db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('posts/index', { posts: post });
-   });
+   if (req.session.user) {
+      db.Post.findAll({ order: 'id DESC' }).then((post) => {
+         res.render('posts/index', { posts: post });
+      });
+   } else {
+      res.render('/login');
+   }
 });
 
 router.get('/posts/edit', (req, res) => {
-   db.Post.findAll({ order: 'id DESC' }).then((post) => {
-      res.render('posts/edit', { post: post });
-   });
+   if (req.session.user) {
+      db.Post.findAll({ order: 'id DESC' }).then((post) => {
+         res.render('posts/edit', { post: post });
+      });
+   } else {
+      res.render('/login');
+   }
 });
 
 router.post('/posts', (req, res) => {
-   db.Post.create(req.body).then((post) => {
-      res.redirect('/' + post.slug);
-   }).catch((error) => {
-      res.status(404).end();
-   });
+   if (req.session.user) {
+      db.Post.create(req.body).then((post) => {
+         res.redirect('/' + post.slug);
+      }).catch((error) => {
+         res.status(404).end();
+      });
+   } else {
+      res.redner('/login');
+   }
 });
 
 router.get('/posts/new', (req, res) => {
-   res.render('posts/new');
+   if (req.session.user) {
+      res.render('posts/new');
+   } else {
+      res.render('/login');
+   }
 });
 
 
 router.get('/posts/:id/edit', (req, res) => {
-   console.log(req.body);
-   db.Post.findOne(req.body, {
-      where: {
-         id: req.params.id
-      }
-   }).then((post) => {
-      res.render('posts/edit', { post : post });
-   });
+   if (req.session.user) {
+      db.Post.findOne(req.body, {
+         where: {
+            id: req.params.id
+         }
+      }).then((post) => {
+         res.render('posts/edit', { post : post });
+      });
+   } else {
+      res.render('/login');
+   }
 });
 
 router.put('/posts/:id', (req, res) => {
-   db.Post.update(req.body, {
-      where: {
-         id: req.params.id
-      }
-   }).then(() => {
-      res.redirect('/admin/posts');
-   });
+   if (req.session.user) {
+      db.Post.update(req.body, {
+         where: {
+            id: req.params.id
+         }
+      }).then(() => {
+         res.redirect('/admin/posts');
+      });
+   } else {
+      res.render('/login');
+   }
 });
 
 router.delete('/posts/:id', (req, res) => {
-   db.Post.destroy({
-      where: {
-         id: req.params.id
-      }
-   }).then(() => {
-      res.redirect('/admin/posts');
-   });
+   if (req.session.user) {
+      db.Post.destroy({
+         where: {
+            id: req.params.id
+         }
+      }).then(() => {
+         res.redirect('/admin/posts');
+      });
+   } else {
+      res.render('/login');
+   }
 });
 
 

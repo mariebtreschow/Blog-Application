@@ -24,7 +24,7 @@ app.use(methodOverride((req, res) => {
    }})
 );
 
-app.use(session({ secret: 'keyboard cat' }));
+app.use(session({ secret: 'secret key' }));
 
 app.set('view engine', 'pug');
 
@@ -43,6 +43,7 @@ incomingComent.PostId = req.params.id;
 });
 
 app.get('/', (req, res) => {
+   console.log(req.session);
   db.Post.findAll({ order: 'id DESC' }).then((post) => {
      res.render('index', { posts: post });
   });
@@ -65,14 +66,15 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+   console.log(req.session.user);
    db.User.findOne({
       where: {
          email: req.body.email
       }
    }).then((userInDB) => {
-      if (userInDB.passowrd === req.body.password) {
+      if (userInDB.password === req.body.password) {
          req.session.user = userInDB;
-         res.redirect('/');
+         res.redirect('/admin/posts');
       } else {
          res.redirect('/login');
       }
