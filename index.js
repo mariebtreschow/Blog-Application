@@ -3,6 +3,7 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       methodOverride = require('method-override'),
       displayRoutes = require('express-routemap'),
+      session = require('express-session'),
       morgan = require('morgan');
 
 var app = express(),
@@ -22,6 +23,8 @@ app.use(methodOverride((req, res) => {
       return method;
    }})
 );
+
+app.use(session({ secret: 'keyboard cat' }));
 
 app.set('view engine', 'pug');
 
@@ -68,11 +71,11 @@ app.post('/login', (req, res) => {
       }
    }).then((userInDB) => {
       if (userInDB.passowrd === req.body.password) {
+         req.session.user = userInDB;
+         res.redirect('/');
       } else {
-         res.redirect('/admin/posts');
+         res.redirect('/login');
       }
-   }).catch(() => {
-      res.redirect('/register');
    });
 });
 
