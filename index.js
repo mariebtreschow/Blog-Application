@@ -80,8 +80,11 @@ app.post('/login', (req, res) => {
          req.session.user = userInDB;
          res.redirect('/admin/posts');
       } else {
-         res.redirect('/login');
+         res.render('/login', { error: { message: 'Password is not correct' } });
+         console.log(message);
       }
+   }).catch((error) => {
+      res.render('login', { error: { message: 'User not found in the database' } });
    });
 });
 
@@ -99,7 +102,8 @@ app.get('/:slug', (req, res) => {
       post.getComments().then((comments) => {
          res.render('posts/show', {
             post: post,
-            comments: comments
+            comments: comments,
+            user: req.session.user
          });
       });
    });

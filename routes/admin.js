@@ -17,7 +17,7 @@ router.get('/posts', (req, res) => {
 router.get('/posts/edit', (req, res) => {
    if (req.session.user) {
       db.Post.findAll({ order: 'id DESC' }).then((post) => {
-         res.render('posts/edit', { post: post });
+         res.render('posts/edit', { post: post, user: req.session.user });
       });
    } else {
       res.render('/login');
@@ -27,18 +27,18 @@ router.get('/posts/edit', (req, res) => {
 router.post('/posts', (req, res) => {
    if (req.session.user) {
       db.Post.create(req.body).then((post) => {
-         res.redirect('/' + post.slug);
+         res.redirect('/' + post.slug, { user: req.session.user });
       }).catch((error) => {
-         res.status(404).end();
+         res.render('posts/new', { errors: error.errors })
       });
    } else {
-      res.redner('/login');
+      res.render('/login');
    }
 });
 
 router.get('/posts/new', (req, res) => {
    if (req.session.user) {
-      res.render('posts/new');
+      res.render('posts/new', { user: req.session.user });
    } else {
       res.render('/login');
    }
@@ -52,7 +52,7 @@ router.get('/posts/:id/edit', (req, res) => {
             id: req.params.id
          }
       }).then((post) => {
-         res.render('posts/edit', { post : post });
+         res.render('posts/edit', { post : post, user: req.session.user });
       });
    } else {
       res.render('/login');
@@ -66,7 +66,7 @@ router.put('/posts/:id', (req, res) => {
             id: req.params.id
          }
       }).then(() => {
-         res.redirect('/admin/posts');
+         res.redirect('/admin/posts', { user: req.session.user });
       });
    } else {
       res.render('/login');
@@ -80,7 +80,7 @@ router.delete('/posts/:id', (req, res) => {
             id: req.params.id
          }
       }).then(() => {
-         res.redirect('/admin/posts');
+         res.redirect('/admin/posts', { user: req.session.user });
       });
    } else {
       res.render('/login');

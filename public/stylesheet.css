@@ -14,3 +14,7 @@ a:-webkit-any-link !important {
     text-decoration: none;
     cursor: auto;
 }
+
+navbar a {
+   color: white;
+}

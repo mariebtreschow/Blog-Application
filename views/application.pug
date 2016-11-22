@@ -5,18 +5,17 @@ html
       link(rel="stylesheet" href="/stylesheet.css")
 
    body
-      nav(class="navbar navbar-light bg-faded")
+      nav(class="navbar navbar-dark bg-inverse")
          a(class="navbar-brand" href="/")
-            h3 Marie | Blog
+            h3 Marie's Blog Platform
          if user
             a(href="/logout" class="btn btn-default btn-md btn-danger float-xs-right") Logout
-            a(href="/admin/posts/new" class="btn btn-default btn-md float-xs-right") New Post
-            a(href="/admin/posts" class="btn btn-default btn-md float-xs-right") Admin Panel
+            a(href="/admin/posts/new" class="btn btn-default btn-md btn-success float-xs-right") New Post
+            a(href="/admin/posts" class="btn btn-default btn-md btn-info float-xs-right") Admin Panel
          else
 
-            a(href="/login" class="btn btn-default btn-md btn-info float-xs-right") Login
-            a(href="/register" class="btn btn-default btn-md float-xs-right") Register
-
+            a(href="/login" class="btn btn-default btn-md btn-success float-xs-right") Login
+            a(href="/register" class="btn btn-default btn-md btn-info float-xs-right") Register
 
 
 
