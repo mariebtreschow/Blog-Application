@@ -26,11 +26,6 @@ module.exports = function(sequelize, DataTypes) {
          isEmail: {
             msg: 'Must be in validate email form'
          },
-         lengthValidator: function(value) {
-            if (value.length < 5) {
-               throw new Error('Email must be longer than 5 characters')
-            }
-         }
       }
    },
    password: DataTypes.STRING
