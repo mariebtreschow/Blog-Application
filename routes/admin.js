@@ -29,7 +29,7 @@ router.post('/posts', (req, res) => {
       db.Post.create(req.body).then((post) => {
          res.redirect('/' + post.slug, { user: req.session.user });
       }).catch((error) => {
-         res.render('posts/new', { errors: error.errors })
+         res.render('posts/new', { errors: error.errors, user: req.session.user })
       });
    } else {
       res.render('/login');
