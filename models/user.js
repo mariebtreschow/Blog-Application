@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
@@ -28,13 +30,31 @@ module.exports = function(sequelize, DataTypes) {
          },
       }
    },
-   password: DataTypes.STRING
+   password: {
+      type: DataTypes.VIRTUAL,
+      set: function(val) {
+         console.log('set called on password attribute change, now adding password digest');
+         this.setDataValue('passwordDigest', bcrypt.hashSync(val, 10));
+      }
+   },
+   fullName: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+         return this.getDataValue('name') + " " + this.getDataValue('surname');
+      }
+   },
+   passwordDigest: DataTypes.STRING
  }, {
    classMethods: {
       associate: function(models) {
-        // associations can be defined here
+         this.hasMany(models.User);
       }
-    }
-  });
-  return User;
-};
+   },
+   hooks: {
+      beforeCreat: function(user, options) {
+
+      }
+   },
+});
+     return User;
+  };

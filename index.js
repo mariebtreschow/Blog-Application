@@ -4,6 +4,7 @@ const express = require('express'),
       methodOverride = require('method-override'),
       displayRoutes = require('express-routemap'),
       session = require('express-session'),
+      bcrypt = require('bcrypt'),
       morgan = require('morgan');
 
 var app = express(),
@@ -36,8 +37,8 @@ app.use('/admin', adminRouter);
 
 
 app.post('/comments/:id', (req, res) => {
-var incomingComent = req.body;
-incomingComent.PostId = req.params.id;
+   var incomingComent = req.body;
+   incomingComent.PostId = req.params.id;
 
    db.Comment.create(incomingComent).then((comment) => {
       return comment.getPost().then((post) => {
@@ -48,7 +49,7 @@ incomingComent.PostId = req.params.id;
 
 app.get('/', (req, res) => {
    console.log(req.session);
-  db.Post.findAll({ order: 'id DESC' }).then((post) => {
+   db.Post.findAll({ order: 'id DESC' }).then((post) => {
      res.render('index', { posts: post });
   });
 });
@@ -61,6 +62,7 @@ app.post('/user', (req, res) => {
    db.User.create(req.body).then((user) => {
       res.redirect('/');
    }).catch((error) => {
+      console.log(error);
       res.render('users/new', { errors: error.errors });
    });
 });
@@ -70,19 +72,19 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-   console.log(req.session.user);
    db.User.findOne({
       where: {
          email: req.body.email
       }
    }).then((userInDB) => {
-      if (userInDB.password === req.body.password) {
-         req.session.user = userInDB;
-         res.redirect('/admin/posts');
-      } else {
-         res.render('/login', { error: { message: 'Password is not correct' } });
-         console.log(message);
-      }
+      bcrypt.compare(req.body.password, userInDB.password, (error, result) => {
+         if (result) {
+            req.session.user = userInDB;
+            res.redirect('/admin/posts');
+         } else {
+            res.render('login', { error: { message: 'Password is not correct' } });
+         }
+      });
    }).catch((error) => {
       res.render('login', { error: { message: 'User not found in the database' } });
    });
@@ -109,9 +111,7 @@ app.get('/:slug', (req, res) => {
    });
 });
 
-
-// cannot getComments of post, post is equal to null__
-db.sequelize.sync({force:false}).then(() => {
+db.sequelize.sync({force:true}).then(() => {
    app.listen(3000, (req, res) => {
       console.log('App listening on 3000!');
       displayRoutes(app);
