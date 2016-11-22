@@ -7,7 +7,7 @@ var express = require('express'),
 router.get('/posts', (req, res) => {
    if (req.session.user) {
       db.Post.findAll({ order: 'id DESC' }).then((post) => {
-         res.render('posts/index', { posts: post });
+         res.render('posts/index', { posts: post, user: req.session.user });
       });
    } else {
       res.render('/login');

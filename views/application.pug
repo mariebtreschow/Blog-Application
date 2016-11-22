@@ -8,12 +8,14 @@ html
       nav(class="navbar navbar-light bg-faded")
          a(class="navbar-brand" href="/")
             h3 Marie | Blog
-         a(href="/" class="btn btn-default btn-md btn-danger float-xs-right") Logout
-         a(href="/admin/posts/new" class="btn btn-default btn-md float-xs-right") New Post
-         a(href="/admin/posts" class="btn btn-default btn-md float-xs-right") Admin Panel
-         a(href="/login" class="btn btn-default btn-md btn-info float-xs-right") Login
-         a(href="/register" class="btn btn-default btn-md float-xs-right") Register
+         if user
+            a(href="/logout" class="btn btn-default btn-md btn-danger float-xs-right") Logout
+            a(href="/admin/posts/new" class="btn btn-default btn-md float-xs-right") New Post
+            a(href="/admin/posts" class="btn btn-default btn-md float-xs-right") Admin Panel
+         else
 
+            a(href="/login" class="btn btn-default btn-md btn-info float-xs-right") Login
+            a(href="/register" class="btn btn-default btn-md float-xs-right") Register
 
 
 

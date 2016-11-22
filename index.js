@@ -24,7 +24,11 @@ app.use(methodOverride((req, res) => {
    }})
 );
 
-app.use(session({ secret: 'secret key' }));
+app.use(session({
+   secret: 'secret key',
+   resave: true,
+   saveUninitialized: true
+ }));
 
 app.set('view engine', 'pug');
 
@@ -79,6 +83,11 @@ app.post('/login', (req, res) => {
          res.redirect('/login');
       }
    });
+});
+
+app.get('/logout', (req, res) => {
+   req.session.user = undefined;
+   res.redirect('/');
 });
 
 app.get('/:slug', (req, res) => {
