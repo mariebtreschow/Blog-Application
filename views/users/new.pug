@@ -4,10 +4,14 @@ block content
 	.container
 		.row
 			.col-xs-6.offset-xs-2
+				if errors
+					each error in errors
+						div(class="alert alert-danger" role="alert")
+							span= error.message
 				br
 				h1 Create a New User:
 				hr
-				form(action="/users" method="POST")
+				form(action="/user" method="POST")
 					div(class="form-group")
 						lable(for="name") Name:
 						input(name="name" type="text" class="form-control")

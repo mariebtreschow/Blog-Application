@@ -57,11 +57,11 @@ app.get('/register', (req, res) => {
    res.render('users/new');
 });
 
-app.post('/users', (req, res) => {
+app.post('/user', (req, res) => {
    db.User.create(req.body).then((user) => {
       res.redirect('/');
-   }).catch(() => {
-      res.redirect('/register');
+   }).catch((error) => {
+      res.render('users/new', { errors: error.errors });
    });
 });
 

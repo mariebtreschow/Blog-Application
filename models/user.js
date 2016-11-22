@@ -1,8 +1,22 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
-    name: DataTypes.STRING,
-    surname: DataTypes.STRING,
+    name: {
+       type: DataTypes.STRING,
+       validate: {
+         notEmpty: {
+             msg: 'Name cannot be empty'
+         }
+      }
+   },
+    surname: {
+      type: DataTypes.STRING,
+      validate: {
+         notEmpty: {
+            msg: 'Surname cannot be empty'
+         }
+      }
+   },
     email: {
       type: DataTypes.STRING,
       validate: {
@@ -10,11 +24,11 @@ module.exports = function(sequelize, DataTypes) {
             msg: 'Email cannot be empty'
          },
          isEmail: {
-            msg: 'Must validate email form'
+            msg: 'Must be in validate email form'
          },
          lengthValidator: function(value) {
-            if (value.length < 2 || value.length > 250) {
-               throw new Error('Content must be between 2 and 250 characters')
+            if (value.length < 5) {
+               throw new Error('Email must be longer than 5 characters')
             }
          }
       }
