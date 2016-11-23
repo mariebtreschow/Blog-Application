@@ -77,7 +77,7 @@ app.post('/login', (req, res) => {
          email: req.body.email
       }
    }).then((userInDB) => {
-      bcrypt.compare(req.body.password, userInDB.password, (error, result) => {
+      bcrypt.compare(req.body.password, userInDB.passwordDigest , (error, result) => {
          if (result) {
             req.session.user = userInDB;
             res.redirect('/admin/posts');
@@ -111,7 +111,7 @@ app.get('/:slug', (req, res) => {
    });
 });
 
-db.sequelize.sync({force:true}).then(() => {
+db.sequelize.sync({force:false}).then(() => {
    app.listen(3000, (req, res) => {
       console.log('App listening on 3000!');
       displayRoutes(app);
