@@ -27,7 +27,7 @@ router.get('/posts/edit', (req, res) => {
 router.post('/posts', (req, res) => {
    if (req.session.user) {
       db.Post.create(req.body).then((post) => {
-         res.redirect('/' + post.slug, { user: req.session.user });
+         res.redirect('/' + post.slug);
       }).catch((error) => {
          res.render('posts/new', { errors: error.errors, user: req.session.user })
       });
@@ -66,7 +66,7 @@ router.put('/posts/:id', (req, res) => {
             id: req.params.id
          }
       }).then(() => {
-         res.redirect('/admin/posts', { user: req.session.user });
+         res.redirect('/admin/posts');
       });
    } else {
       res.render('/login');
@@ -80,7 +80,7 @@ router.delete('/posts/:id', (req, res) => {
             id: req.params.id
          }
       }).then(() => {
-         res.redirect('/admin/posts', { user: req.session.user });
+         res.redirect('/admin/posts');
       });
    } else {
       res.render('/login');
