@@ -13,8 +13,6 @@ const express = require('express'),
 var transporter = nodemailer.createTransport('smtps://treschow.marie%40gmail.com:'+
  process.env.BLOG_APP_EMAIL_PASSWORD +'@smtp.gmail.com');
 
-console.log(process.env.BLOG_APP_EMAIL_PASSWORD);
-
 var app = express(),
     db = require('./models');
 
@@ -123,7 +121,7 @@ app.post('/forgot-password', (req, res) => {
                You have request a new passord. If not, ignore this email.
 
                You can change your password with the link below:
-               https://localhost:3000/change-password/${user.passwordResetToken}
+               http://localhost:3000/change-password/${user.passwordResetToken}
                `
             }, (error, info) => {
                if (error) { throw error; }
@@ -141,12 +139,35 @@ app.post('/forgot-password', (req, res) => {
    });
 });
 
-app.get('/change-password:uuid', (req, res) => {
-
+app.get('/change-password/:passwordResetToken', (req, res) => {
+   console.log(req.params.passwordResetToken)
+   db.User.findOne({
+      where: {
+         passwordResetToken: req.params.passwordResetToken
+      }
+   }).then((user) => {
+      res.render('change-password', {user: user} );
+   }).catch((error) => {
+      console.log('This is the error:')
+      console.log(error);
+      res.render('/');
+   });
 });
 
-app.post('/change-password:uuid', (req, res) => {
-
+app.post('/change-password/:passwordResetToken', (req, res) => {
+   db.User.findOne({
+      where: {
+         passwordResetToken: req.params.passwordResetToken
+      }
+   }).then((user) => {
+      user.password = req.body.password;
+      user.save().then((user) => {
+         req.session.user = user;
+         res.redirect('/');
+      }).catch((error) => {
+         res.redirect('/change-password/' + req.params.passwordResetToken);
+      });
+   });
 });
 
 app.get('/:slug', (req, res) => {
