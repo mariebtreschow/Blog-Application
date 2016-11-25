@@ -4,8 +4,13 @@ const express = require('express'),
       methodOverride = require('method-override'),
       displayRoutes = require('express-routemap'),
       session = require('express-session'),
-      bcrypt = require('bcrypt');
+      bcrypt = require('bcrypt'),
+      base64url = require('base64url'),
+      crypto = require('crypto');
+      nodemailer = require('nodemailer'),
       morgan = require('morgan');
+
+var transporter = nodemailer.createTransport('smtps://treschow.marie%40gmail.com:'+ process.env.EMAIL_PASSWORD +'@smtp.gmail.com');
 
 var app = express(),
     db = require('./models');
@@ -94,6 +99,38 @@ app.post('/login', (req, res) => {
 app.get('/logout', (req, res) => {
    req.session.user = undefined;
    res.redirect('/');
+});
+
+app.get('/forgot-password', (req, res) => {
+   res.render('forgot-password');
+});
+
+app.post('/forgot-password', (req, res) => {
+   db.User.findOne({
+      where: {
+         email: req.body.email
+      }
+      }).then((user) => {
+         user.passwordResetToken = base64url(crypto.randomBytes(48));
+         user().then((user) => {
+
+         });
+         res.redirect('/login');
+
+         if (user) {
+
+         } else {
+         res.redirect('/forgot-password');
+      }
+   });
+});
+
+app.get('/change-password:uuid', (req, res) => {
+
+});
+
+app.post('/change-password:uuid', (req, res) => {
+
 });
 
 app.get('/:slug', (req, res) => {

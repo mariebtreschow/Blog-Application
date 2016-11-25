@@ -6,7 +6,10 @@
 
 a {
    color: black;
-   hover: black;
+}
+
+a:hover {
+   color:red;
 }
 
 a:-webkit-any-link !important {
