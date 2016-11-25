@@ -10,7 +10,10 @@ const express = require('express'),
       nodemailer = require('nodemailer'),
       morgan = require('morgan');
 
-var transporter = nodemailer.createTransport('smtps://treschow.marie%40gmail.com:'+ process.env.EMAIL_PASSWORD +'@smtp.gmail.com');
+var transporter = nodemailer.createTransport('smtps://treschow.marie%40gmail.com:'+
+ process.env.BLOG_APP_EMAIL_PASSWORD +'@smtp.gmail.com');
+
+console.log(process.env.BLOG_APP_EMAIL_PASSWORD);
 
 var app = express(),
     db = require('./models');
@@ -112,8 +115,21 @@ app.post('/forgot-password', (req, res) => {
       }
       }).then((user) => {
          user.passwordResetToken = base64url(crypto.randomBytes(48));
-         user().then((user) => {
+         user.save().then((user) => {
+            transporter.sendMail({
+               to: user.email,
+               subject: 'Reset Password',
+               text: `Hi there,
+               You have request a new passord. If not, ignore this email.
 
+               You can change your password with the link below:
+               https://localhost:3000/change-password/${user.passwordResetToken}
+               `
+            }, (error, info) => {
+               if (error) { throw error; }
+               console.log('Password reset email sent:');
+               console.log(info);
+            });
          });
          res.redirect('/login');
 
