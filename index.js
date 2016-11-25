@@ -4,7 +4,7 @@ const express = require('express'),
       methodOverride = require('method-override'),
       displayRoutes = require('express-routemap'),
       session = require('express-session'),
-      bcrypt = require('bcrypt'),
+      bcrypt = require('bcrypt');
       morgan = require('morgan');
 
 var app = express(),
@@ -26,6 +26,7 @@ app.use(methodOverride((req, res) => {
 );
 
 app.use(session({
+   name: 'maries-session-cookie',
    secret: 'secret key',
    resave: true,
    saveUninitialized: true
