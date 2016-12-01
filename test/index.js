@@ -75,3 +75,20 @@ describe('Post Model Testing', () => {
       });
    });
 });
+
+describe('Comments Model Testing', () => {
+   before((done) => {
+      db.sequelize.sync({ force: true }).then(() => {
+         done();
+      });
+   });
+
+   it('comments are creating', (done) => {
+      db.Comment.create({
+         content: 'Great one!'
+      }).then((comment) => {
+         assert.equal(comment.content, 'Great one!');
+         done();
+      });
+   });
+});
