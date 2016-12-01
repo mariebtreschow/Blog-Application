@@ -3,29 +3,29 @@ module.exports = function(sequelize, DataTypes) {
   var Post = sequelize.define('Post', {
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-         notEmpty: {
-            msg: 'Title cannot be empty'
-         }
+         len: [4, 500]
       }
    },
    slug: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-         notEmpty: {
-            msg: 'Slug cannot be empoty'
-         }
+         len: [4, 600]
       }
    },
    content: {
       type: DataTypes.TEXT,
+      allowNull: false,
       validate: {
-         notEmpty: {
-            msg: 'Content cannot be empty'
-         },
          lengthValidator: function(content) {
             if (content.length < 20) {
-               throw new Error('Content is too short')
+               throw new Error('Content is too short');
+            }
+
+            if (content.length > 100000000) {
+               throw new Error('Content is too long');
             }
          }
       }
@@ -33,6 +33,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
+         this.belongsTo(models.User);
          this.hasMany(models.Comment);
         // associations can be defined here
       }

@@ -140,7 +140,6 @@ app.post('/forgot-password', (req, res) => {
 });
 
 app.get('/change-password/:passwordResetToken', (req, res) => {
-   console.log(req.params.passwordResetToken)
    db.User.findOne({
       where: {
          passwordResetToken: req.params.passwordResetToken
@@ -148,8 +147,6 @@ app.get('/change-password/:passwordResetToken', (req, res) => {
    }).then((user) => {
       res.render('change-password', {user: user} );
    }).catch((error) => {
-      console.log('This is the error:')
-      console.log(error);
       res.render('/');
    });
 });
@@ -163,7 +160,7 @@ app.post('/change-password/:passwordResetToken', (req, res) => {
       user.password = req.body.password;
       user.save().then((user) => {
          req.session.user = user;
-         res.redirect('/');
+         res.render('login');
       }).catch((error) => {
          res.redirect('/change-password/' + req.params.passwordResetToken);
       });

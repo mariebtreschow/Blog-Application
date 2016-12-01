@@ -21,5 +21,7 @@ block content
 					div(class="form-group")
 						lable(for="content") Content:
 						textarea(name="content" class="form-control" rows=20 id="post-content")
-					div(class="form-group text-xs-center")
-						button(type="submit" class="btn btn-ls btn-success") Create a New Blog Post
+						div(class="form-group")
+							input(typ="hidden" name="UserId" value=user.id class="form-control")
+						div(class="form-group text-xs-center")
+							button(type="submit" class="btn btn-ls btn-success") Create a New Blog Post

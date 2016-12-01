@@ -55,6 +55,8 @@ router.put('/posts/:id', (req, res) => {
       }
    }).then(() => {
       res.redirect('/admin/posts');
+   }).catch((error, post) => {
+      res.render('posts/edit', { errors: error.errors, user: req.session.user, post: post });
    });
 });
 
