@@ -91,4 +91,22 @@ describe('Comments Model Testing', () => {
          done();
       });
    });
+
+   it('comments canot be create if no content', (done) => {
+      db.Comment.create({
+
+      }).catch((error) => {
+         assert.equal(error.errors[0].message, 'content cannot be null');
+         done();
+      });
+   });
+
+   it('comments cannot be too long', (done) => {
+      db.Comment.create({
+         conent: 'This is a very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long comment'
+      }).catch((error) => {
+         assert.equal(error.errors[0].message, 'content cannot be null');
+         done();
+      });
+   });
 });
