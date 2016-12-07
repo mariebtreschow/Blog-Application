@@ -6,7 +6,13 @@ var db = require('../models');
 describe('Post Model Testing', () => {
    before((done) => {
       db.sequelize.sync({ force: true }).then(() => {
-         done();
+         db.User.create({
+            id: 1,
+            email: 'treschow.marie@gmail.com',
+            password: '123456'
+         }).then((user) => {
+            done();
+         });
       });
    });
 
@@ -14,7 +20,8 @@ describe('Post Model Testing', () => {
       db.Post.create({
          title: 'Maries awesome blog post',
          slug: 'maries-awesome-blog-post',
-         content: 'This is too freakin awesome'
+         content: 'This is too freakin awesome',
+         UserId: 1
       }).then((post) => {
          assert.equal(post.isNewRecord, false);
          assert.equal(post.title, 'Maries awesome blog post');
@@ -27,9 +34,22 @@ describe('Post Model Testing', () => {
    it('cannot create a post if title missing', (done) => {
       db.Post.create({
          slug: 'maries-awesome-blog-post',
-         content: 'This is too freakin awesome'
+         content: 'This is too freakin awesome',
+         UserId: 1
       }).catch((error) => {
          assert.equal(error.errors[0].message, 'title cannot be null');
+         done();
+      });
+   });
+
+   it('cannot create a post if user is missing', (done) => {
+      db.Post.create({
+         title: 'Maries awesome blog post',
+         slug: 'maries-awesome-blog-post',
+         content: 'This is too freakin awesome',
+      }).catch((error) => {
+         assert.equal(error.errors[0].message, 'UserId cannot be null');
+         assert.equal(error.errors.length, 1);
          done();
       });
    });
@@ -37,7 +57,8 @@ describe('Post Model Testing', () => {
    it('cannot create a post when content is missing', (done) => {
       db.Post.create({
          title: 'Maries awesome blog post',
-         slug: 'maries-awesome-blog-post'
+         slug: 'maries-awesome-blog-post',
+         UserId: 1
       }).catch((error) => {
          assert.equal(error.errors[0].message, 'content cannot be null');
          done();
@@ -48,11 +69,11 @@ describe('Post Model Testing', () => {
       db.Post.update({
          title: 'Maries new title',
          slug: 'maries-new-title',
-         content: 'This is the new content in this update post'
+         content: 'This is the new content in this update post',
       }, { where: {
          title: 'Maries awesome blog post',
          slug: 'maries-awesome-blog-post',
-         content: 'This is too freakin awesome'
+         content: 'This is too freakin awesome',
       },
       returning: true
    }).then((updateData) => {
