@@ -1,13 +1,13 @@
 html
    head
-      title Marie's Blog
+      title Blog Platform
       link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous")
       link(rel="stylesheet" href="/stylesheet.css")
 
    body
       nav(class="navbar navbar-dark bg-inverse")
          a(class="navbar-brand" href="/")
-            h3 Marie's Blog Platform
+            h3 Blog Platform
          if user
             a(href="/logout" class="btn btn-default btn-md btn-danger float-xs-right") Logout
             a(href="/admin/posts/new" class="btn btn-default btn-md btn-success float-xs-right") New Post

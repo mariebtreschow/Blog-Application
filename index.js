@@ -17,6 +17,7 @@ var app = express(),
     db = require('./models');
 
 var adminRouter = require('./routes/admin');
+//var authenticationRouter = require('./routes/authentication');
 
 app.use(express.static('public'));
 app.use(morgan('dev'));
@@ -41,7 +42,7 @@ app.use(session({
 app.set('view engine', 'pug');
 
 app.use('/admin', adminRouter);
-
+//app.use('/authentication', authenticationRouter);
 
 app.post('/comments/:id', (req, res) => {
    var incomingComent = req.body;
@@ -62,7 +63,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-   res.render('users/new');
+   res.render('authentication/new');
 });
 
 app.post('/user', (req, res) => {
@@ -70,12 +71,12 @@ app.post('/user', (req, res) => {
       res.redirect('/');
    }).catch((error) => {
       console.log(error);
-      res.render('users/new', { errors: error.errors });
+      res.render('authentication/new', { errors: error.errors });
    });
 });
 
 app.get('/login', (req, res) => {
-   res.render('login');
+   res.render('authentication/login');
 });
 
 app.post('/login', (req, res) => {
@@ -89,11 +90,11 @@ app.post('/login', (req, res) => {
             req.session.user = userInDB;
             res.redirect('/admin/posts');
          } else {
-            res.render('login', { error: { message: 'Password is not correct' } });
+            res.render('authentication/login', { error: { message: 'Password is not correct' } });
          }
       });
    }).catch((error) => {
-      res.render('login', { error: { message: 'User not found in the database' } });
+      res.render('authentication/login', { error: { message: 'User not found in the database' } });
    });
 });
 
@@ -103,12 +104,12 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/forgot-password', (req, res) => {
-   res.render('forgot-password');
+   res.render('authentication/forgot-password');
 });
 
 app.post('/forgot-password', (req, res) => {
    db.User.findOne({
-      where: {
+   where: {
          email: req.body.email
       }
       }).then((user) => {
@@ -145,7 +146,7 @@ app.get('/change-password/:passwordResetToken', (req, res) => {
          passwordResetToken: req.params.passwordResetToken
       }
    }).then((user) => {
-      res.render('change-password', {user: user} );
+         res.render('authentication/change-password', { user: user } );
    }).catch((error) => {
       res.render('/');
    });
@@ -160,9 +161,9 @@ app.post('/change-password/:passwordResetToken', (req, res) => {
       user.password = req.body.password;
       user.save().then((user) => {
          req.session.user = user;
-         res.render('login');
+         res.render('authentication/login');
       }).catch((error) => {
-         res.redirect('/change-password/' + req.params.passwordResetToken);
+         res.redirect('/authentication/change-password/' + req.params.passwordResetToken);
       });
    });
 });
