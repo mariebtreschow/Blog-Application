@@ -83,7 +83,6 @@ describe('Post Model Testing', () => {
       assert.equal(post.slug, 'maries-new-title');
       assert.equal(post.content, 'This is the new content in this update post');
       done();
-
       });
    });
 
